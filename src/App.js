@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import TextForm from "./components/TextForm";
 import Alert from "./components/Alert";
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 function App() {
   const [mode, setDarkMode] = useState("light");
@@ -35,7 +36,6 @@ function App() {
   }
 
   const toggleModeGreen = () => {
-    let btns = document.querySelectorAll('.btn-primary');
     if(mode === "light"){
       setDarkMode('dark');
       document.body.style.backgroundColor = "#2e6f40";
@@ -48,12 +48,21 @@ function App() {
 
   return (
     <>
+    <Router>
       <Navbar title="TextUtils" about="About TestUtils" mode={mode} toggleModeBlue={toggleModeBlue} toggleModeGreen={toggleModeGreen}/>
       <Alert alert={alert}/>
       <div className="container my-3">
-      <TextForm heading="Enter the text to analyze below" mode={mode} showAlert={showAlert} toggleModeGreen={toggleModeGreen}/>
-      <About mode={mode}/>
+
+        <Routes>
+
+          <Route exact path="/about" element={<About mode={mode}/>}/>
+
+          <Route exact path="/" element={<TextForm heading="Try TextUtils - Word Counter, Character Counter, Remove Extra Spaces" mode={mode} showAlert={showAlert} toggleModeGreen={toggleModeGreen}/>}/>
+
+        </Routes>      
+      
       </div>
+    </Router>
     </>
   );
 }
